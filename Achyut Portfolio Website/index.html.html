@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achyut Paliwal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            scroll-behavior: smooth;
+        }
+
+        /* Progress Bar Styles */
+        #progressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 5px;
+            background: #d824ec;
+            z-index: 1000;
+        }
+
+        /* Navbar Styles */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px 20px;
+            z-index: 11;
+            position: fixed;
+            right: 20px;
+            top: 20px;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 4px 0;
+            transition: 0.3s ease-in-out;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 250px;
+            height: 100vh;
+            background-color: #333;
+            padding: 20px;
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        .nav-links.active {
+            transform: translateX(300px);
+        }
+
+        .nav-links li {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 10px 0;
+            display: block;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links li a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #47ff9d;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links li a:hover {
+            color: #47ff9d;
+        }
+
+        /* Section Styles */
+        .section {
+            height: 100vh ;
+            background-image: url('mountains.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        @media(max-width: 680px){
+            .section{
+                height: auto;
+            }
+            .fa{
+                margin-top: 50px;
+            }
+        }
+        
+        @media(min-height: 768px) {
+            .section h1{
+                margin-top: 80px;
+            }
+        }
+
+        @media(min-height: 900px) {
+            .section h1{
+                margin-top: 150px;
+            }
+        }
+
+        @media(min-height: 1000px) {
+            .section h1{
+                margin-top: 230px;
+            }
+        }
+
+        @media(min-height: 1100px) {
+            .section h1{
+                margin-top: 290px;
+            }
+        }
+        
+        @media(min-height: 1180px) {
+            .section h1{
+                margin-top: 350px;
+            }
+        }
+
+        @media(max-height: 660px){
+            .section h1{
+                margin-top: -100px;
+            }
+        }
+        .section h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: rgb(127, 255, 53);
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .section p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #b4a8a8;
+        }
+
+        .section button {
+            background-color: rgba(121, 255, 76, 0.736);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 30px;
+            transition-duration: 0.3s;
+        }
+
+        .section button:hover {
+            background-color: rgb(127, 255, 53);
+            border-radius: 0px;
+        }
+
+        .social-icons {
+            margin-top : auto; /* Push icons to the bottom */
+        }
+        .section-content {
+            margin-top: 220px;
+        }
+        .fa {
+            padding: 20px;
+            font-size: 50px;
+            width: 50px;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 3px;
+            margin-left: 20px;
+            margin-right: 20px;
+            color: #3efc51;
+            transition-duration: 0.5s;
+        }
+
+        .fa:hover {
+            color: #00ff1aa9;
+        }
+
+        /* About Section Styles */
+        .about {
+            height: auto;
+            color: rgb(0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            text-align: left;
+            background-image: url('.jpg');
+        }
+
+        .about h1 {
+            font-size: 3rem;
+            margin-bottom: 50px;
+            color: #00ff55;
+        }
+
+        .about p {
+            font-size: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            margin-bottom: 0px;
+            font-weight: 500;
+            color: #b4a8a8;
+        }
+
+        /* Stylish Image Boxes */
+        .image-container {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .image-box1 {
+            width: 200px;
+            height: 150px;
+            background-color: #ddd;
+            border-radius: 15px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .image-box1:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Education Section Styles */
+        .education {
+            height: auto;
+            background-image: url('your-background-image.jpg'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            text-align: center;
+            margin-top: 200px;
+            background-image: url('.jpg'); /* Optional: Add a slight white background for readability */
+        }
+
+        .education h1 {
+            font-size: 3rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: #00ff55;
+        }
+
+        .education p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+
+        .image-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 80px;
+            flex-wrap: wrap;
+        }
+
+        .image-box {
+            width: 400px;
+            height: 400px;
+            background-color: #dddddd9f;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border: 2px #aaa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            color: #555;
+            transition: transform 0.3s;
+        }
+
+        .image-box:hover {
+            transform: scale(1.1);
+            border-color: #47ff9d;
+            background-color: #b4adadb4;
+            border: 3px solid #d824ec;
+        }
+
+        .awards {
+            height: auto;
+            color: rgb(0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            text-align: left;
+            background-image: url('.jpg');
+            margin-top: 200px;
+        }
+
+        .awards h1 {
+            font-size: 3rem;
+            margin-bottom: 50px;
+            color: #00ff55;
+        }
+
+        .awards p {
+            font-size: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            margin-bottom: 0px;
+            font-weight: 500;
+            color: #b4a8a8;
+            text-align: left;
+        }
+
+
+        /* Footer Styles */
+        footer {
+            background-image: url('.jpg');
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div id="progressBar"></div>
+    <!-- Navbar -->
+    <header>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#" id="home">HOME</a></li>
+            <li><a href="#" id="about-link">ABOUT</a></li>
+            <li><a href="#" id="education1">EDUCATION</a></li>
+            <li><a href="#" id="awards1">AWARDS</a></li>
+        </ul>
+    </header>
+
+    <!-- Main Section -->
+    <section class="section" id="section">
+        <div class="section-content">
+            <h1>Hi, I'm Achyut Paliwal</h1>
+            <h2>Get to learn more about me and follow me</h2>
+            <p>| COMPUTER PROGRAMMER | UI DESIGNER | WEB DEV |</p>
+            <button id="learnMore">LEARN MORE</button>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/achyut-paliwal-57bb51294/?originalSubdomain=qa" class="fa fa-linkedin"></a>
+            <a href="https://instagram.com/achyutkpaliwal/" class="fa fa-instagram"></a>
+            <a href="https://github.com/Achyut2009" class="fa fa-github"></a>
+            <a href="https://x.com/APaliwal63574" class="fa fa-twitter"></a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h1>ABOUT ME</h1>
+        <p>HI! I AM ACHYUT PALIWAL. A 15 YEAR OLD CS STUDENT INTERESTED IN WEB DEVELOPMENT, UI DESIGNING, AVIATION, UV DRONES, SPACE AND MODEL ROCKETS.
+        A CERTIFIED PYTHON PROGRAMMER, C PROGRAMMER, WEB DEVELOPER, UI DESIGNER. CURRENTLY STUDYING IN GRADE 10, DPS-MODERN INDIAN SCHOOL.
+        I AM ALSO THE FOUNDER AND CEO OF SKYDARK</p>
+        <p> <br> <br> I AM VERY DEEPLY INTERESTED IN TOPICS SUCH AS ENGINEERING, PROGRAMMING, MATHS, SCIENCE, TECHNOLOGY, SPACE, AVIATION AND AEROSPACE ENGINEERING.
+        DOWN ARE A FEW PICTURES THAT DEPICT MY FUTURE.</p>
+        <!-- Stylish Div Boxes for Images -->
+        <div class="image-container">
+            <div class="image-box1" style="background-image: url('coding.jpg');"></div>
+            <div class="image-box1" style="background-image: url('rocket.jpg');"></div>
+            <div class="image-box1" style="background-image: url('airbus.jpg');"></div>
+            <div class="image-box1" style="background-image: url('coding2.jpg');"></div>
+            <div class="image-box1" style="background-image: url('UV.jpg');"></div>
+        </div>
+    </section>
+
+    <!-- New Education Section -->
+    <section class="education" id="education">
+ <h1>EDUCATION</h1>
+
+    <!-- Div Boxes for Image Generation -->
+    <div class="image-boxes">
+        <div class="image-box" onclick="openModal('DPS.jpg')" style="background-image: url('DPS.jpg');"></div>
+        <div class="image-box" onclick="openModal('CISCO')" style="background-image: url('images.jpg');"></div>
+        <div class="image-box" onclick="openModal('HARVARD CS50')" style="background-image: url('Harvard.jpg');"></div>
+    </div>
+</section>
+
+<section class="awards" id="awards">
+    <h1>AWARDS AND CERTIFICATES</h1>
+    <p><br>DPS-MODERN INDIAN SCHOOL 1ST EDITION HACKATHON 1ST PLACE</p>
+    <p><br>EDX HARVARD CS50 INTRODUCTION TO COMPUTER SCIENCE</p>
+    <p><br>EDX HARVARD CS50 INTRODUCTION TO PYTHON PROGRAMMING</p>
+    <p><br>CISCO CERTIFICATE FOR ESSENTIALS-1 INTRODUCTION TO PYTHON</p>
+    <p><br>CISCO CERTIFICATE FOR INTRODUCATION TO INTERNET OF THINGS</p>
+    <p><br>CISCO CERTIFICATE FOR INTRODUCTION TO CYBER SECURITY</p>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Achyut Paliwal. All rights reserved.</p>
+</footer>
+
+<script>
+    // Progress Bar Script
+    window.onscroll = function () {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
+        document.getElementById("progressBar").style.width = scrollPercentage + "%";
+    };
+
+    const navLinks = document.getElementById('nav-links');
+    const hamburger = document.getElementById('hamburger');
+
+    function toggleMenu() {
+        navLinks.classList.toggle('active');
+    }
+
+    document.getElementById('learnMore').addEventListener('click', () => {
+        document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.addEventListener('click', (event) => {
+        const isClickInsideNav = navLinks.contains(event.target);
+        const isClickInsideHamburger = hamburger.contains(event.target);
+
+        if (!isClickInsideNav && !isClickInsideHamburger && navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+    // Scroll to About Section when "ABOUT" is clicked
+    document.getElementById('about-link').addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default anchor behavior
+        document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Scroll to Home Section when "HOME" is clicked
+    document.getElementById('home').addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default anchor behavior
+        document.getElementById('section').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Scroll to Education Section when "EDUCATION" is clicked
+    document.getElementById('education1').addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default anchor behavior
+        document.getElementById('education').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Scroll to Awards Section when "AWARDS" is clicked
+    document.getElementById('awards1').addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default anchor behavior
+        document.getElementById('awards').scrollIntoView({ behavior: 'smooth' });
+    });
+</script>
+
+</body>
+</html>
